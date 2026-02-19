@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy import Session
+from sqlalchemy.orm import Session
+
 from pydantic import BaseModel
 
 from database import get_db
