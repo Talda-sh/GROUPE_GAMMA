@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, BigInteger, String, Float, Boolean, ForeignKey, Text, TIMESTAMP
-from sqlalchemy.sql import func
-from backend.database import Base
+from sqlalchemy import func
+from database import Base
 
 
 # ======================
