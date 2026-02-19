@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+/* Import des polices et icônes */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+:root {
+  --ps-yellow: #EEFF00; /* Le jaune de ta palette */
+  --ps-black: #000000;  /* Le noir de fond */
+  --ps-dark-card: #12120B; /* Le noir des conteneurs */
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: var(--ps-black);
+  font-family: 'Inter', sans-serif;
+  color: white;
+  overflow: hidden; /* Pour éviter les barres de défilement inutiles */
+}

@@ -1,12 +1,10 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { NavigationComponent } from './components/navigation/navigation'; // Import de ton composant
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [NavigationComponent], // On l'ajoute ici
+  template: '<app-navigation></app-navigation>', // On l'affiche ici
 })
-export class App {
-  protected readonly title = signal('frontend');
-}
+export class App {}

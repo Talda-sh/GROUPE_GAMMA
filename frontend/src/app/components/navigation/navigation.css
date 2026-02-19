@@ -1,0 +1,157 @@
+/* Conteneur principal */
+.app-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #000000;
+}
+
+/* Header et Logo */
+.header {
+  padding: 15px 20px;
+  z-index: 10;
+}
+
+.logo {
+  height: 60px; /* Ajuste la taille de ton logo PS.png ici */
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* Barre de recherche avec bordure jaune */
+.search-bar {
+  border: 2px solid #EEFF00;
+  border-radius: 50px;
+  padding: 8px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.search-text label {
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  color: white;
+  text-transform: uppercase;
+}
+
+.search-text input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  width: 100%;
+}
+
+.mic-icon {
+  color: #EEFF00;
+  font-size: 30px;
+}
+
+/* Zone de la Carte */
+.map-area {
+  flex-grow: 1;
+  background-color: #2a2a2a; /* Couleur temporaire avant Leaflet */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-instruction-overlay {
+  font-size: 24px;
+  font-weight: 900;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Panneau d'instructions du bas */
+.bottom-panel {
+  background-color: #12120B; /* Fond sombre de la charte */
+  border-radius: 40px 40px 0 0;
+  padding: 20px 30px 40px;
+  box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+}
+
+.drag-handle {
+  width: 40px;
+  height: 4px;
+  background: #333;
+  margin: 0 auto 20px;
+  border-radius: 2px;
+}
+
+.instruction-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.yellow-circle {
+  background-color: #EEFF00;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}
+
+.yellow-circle span {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.action {
+  color: #EEFF00;
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 0.9;
+  margin: 0;
+}
+
+.dist {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.street {
+  color: #888;
+  font-size: 18px;
+  margin: 5px 0 0;
+}
+
+/* Statistiques du trajet */
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #222;
+}
+
+.st-label {
+  color: #888;
+  font-size: 12px;
+  display: block;
+}
+
+.st-val {
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.st-sub {
+  font-size: 18px;
+  font-weight: 700;
+  display: block;
+}
+
+.align-right {
+  text-align: right;
+}
