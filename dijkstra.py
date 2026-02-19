@@ -1,14 +1,15 @@
-# dijkstra.py
-
 def calculate_route(nodes, edges, start_id, end_id):
-    """
-    nodes : liste d'objets Node
-    edges : liste d'objets Edge
-    start_id : node de départ
-    end_id : node d'arrivée
-    """
 
-    # Construire le graphe
+    # ===== Sécurité : vérifier que les nodes existent =====
+    node_ids = [node.id for node in nodes]
+
+    if start_id not in node_ids or end_id not in node_ids:
+        return {
+            "path": [],
+            "distance": None,
+            "error": "Node introuvable"
+        }
+
     graph = {}
 
     for edge in edges:
@@ -19,18 +20,15 @@ def calculate_route(nodes, edges, start_id, end_id):
             (edge.to_node_id, edge.distance_m)
         )
 
-        # bidirectionnel simple
         if edge.to_node_id not in graph:
             graph[edge.to_node_id] = []
 
-    # Initialisation
     distances = {node.id: float("inf") for node in nodes}
     previous = {}
 
     distances[start_id] = 0
     unvisited = set(distances.keys())
 
-    # Algorithme Dijkstra
     while unvisited:
         current = min(unvisited, key=lambda node: distances[node])
 
@@ -46,7 +44,6 @@ def calculate_route(nodes, edges, start_id, end_id):
                 distances[neighbor] = new_distance
                 previous[neighbor] = current
 
-    # Reconstruction du chemin
     path = []
     current = end_id
 
@@ -54,9 +51,10 @@ def calculate_route(nodes, edges, start_id, end_id):
         path.insert(0, current)
         current = previous[current]
 
-    path.insert(0, start_id)
+    if start_id in distances:
+        path.insert(0, start_id)
 
     return {
         "path": path,
-        "distance": distances[end_id]
+        "distance": distances.get(end_id)
     }

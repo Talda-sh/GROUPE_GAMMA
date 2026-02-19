@@ -1,11 +1,21 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 
 from database import get_db
 import models
 from dijkstra import calculate_route
 
 router = APIRouter()
+
+
+# ==========================
+# Pydantic Schema (PRO)
+# ==========================
+
+class RouteRequest(BaseModel):
+    start_id: int
+    end_id: int
 
 
 # ==========================
@@ -33,11 +43,16 @@ def get_pois(db: Session = Depends(get_db)):
 # ==========================
 
 @router.post("/route")
-def get_route(start_id: int, end_id: int, db: Session = Depends(get_db)):
+def get_route(data: RouteRequest, db: Session = Depends(get_db)):
 
     nodes = db.query(models.Node).all()
     edges = db.query(models.Edge).all()
 
-    result = calculate_route(nodes, edges, start_id, end_id)
+    result = calculate_route(
+        nodes,
+        edges,
+        data.start_id,
+        data.end_id
+    )
 
     return result
