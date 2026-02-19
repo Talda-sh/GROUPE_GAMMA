@@ -1,11 +1,13 @@
 from fastapi import FastAPI
-from database import engine, Base
-import models
-from routes import router
+from backend.database import engine, Base
+import backend.models as models
+from backend.routes import router
 
 app = FastAPI()
 
-Base.metadata.create_all(bind=engine)
+@app.on_event("startup")
+def startup():
+    Base.metadata.create_all(bind=engine)
 
 @app.get("/")
 def root():

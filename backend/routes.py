@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
-from database import get_db
-import models
-from dijkstra import calculate_route
+from backend.database import get_db
+import backend.models as models
+from backend.dijkstra import calculate_route
 
 router = APIRouter()
 

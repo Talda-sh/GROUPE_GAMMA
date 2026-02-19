@@ -1,4 +1,4 @@
-from dijkstra import calculate_route
+from backend.dijkstra import calculate_route
 
 
 class FakeNode:
