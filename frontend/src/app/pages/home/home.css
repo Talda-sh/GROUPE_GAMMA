@@ -1,0 +1,54 @@
+:host {
+  display: block;
+  height: 100vh;
+  background-color: #000000; /* fond noir */
+  color: white;
+}
+
+.center {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.talk-btn {
+  width: 270px;
+  height: 300px;
+  background: #EEFF00 !important;
+  border-radius: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.talk-btn mat-icon {
+  font-size: 140px !important;
+  width: 140px !important;
+  height: 140px !important;
+  color: #EEFF00 !important;
+}
+
+.circle-border {
+  width: 100px;
+  height: 100px;
+  background: #000;   /* cercle noir */
+  border-radius: 50%;
+  margin-top: 20px;
+
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  font-weight: 800;
+  font-size: 30px;
+
+  letter-spacing: 1px;
+}
+
+
