@@ -3,9 +3,9 @@ from sqlalchemy import func
 from database import Base
 
 
-# ======================
+# 
 # LOCATIONS
-# ======================
+# 
 
 class Location(Base):
     __tablename__ = "locations"
@@ -21,9 +21,9 @@ class Location(Base):
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
 
 
-# ======================
+# 
 # NODES
-# ======================
+#
 
 class Node(Base):
     __tablename__ = "nodes"
@@ -45,9 +45,9 @@ class Node(Base):
     hazard_level = Column(Integer, default=0)
 
 
-# ======================
+# 
 # EDGES (liaisons graphe)
-# ======================
+#
 
 class Edge(Base):
     __tablename__ = "edges"
@@ -69,10 +69,9 @@ class Edge(Base):
     edge_instructions = Column(Text)
 
 
-# ======================
+#
 # POIS
-# ======================
-
+#
 class POI(Base):
     __tablename__ = "pois"
 
@@ -85,9 +84,9 @@ class POI(Base):
     category = Column(String)
 
 
-# ======================
+#
 # ROUTES (optionnel)
-# ======================
+#
 
 class Route(Base):
     __tablename__ = "routes"
@@ -102,9 +101,9 @@ class Route(Base):
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
 
 
-# ======================
+# 
 # ROUTE STEPS
-# ======================
+# 
 
 class RouteStep(Base):
     __tablename__ = "route_steps"

@@ -9,8 +9,20 @@ import models as models
 # Router API
 from routes import router
 
+# pour gérer les CORS (Cross-Origin Resource Sharing)
+from fastapi.middleware.cors import CORSMiddleware
+
 # Création de l'app FastAPI
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # dev seulement
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 # 
