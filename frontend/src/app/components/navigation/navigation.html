@@ -1,48 +1,97 @@
 <div class="app-wrapper">
 
+  <!-- ================= HEADER ================= -->
   <header class="header">
+
+    <!-- LOGO -->
     <div class="logo-container">
-      <img src="asset/PS.png" alt="" class="logo">
+      <img src="assets/PS.png" alt="Logo PathSense" class="logo">
     </div>
 
+    <!-- BARRE DE RECHERCHE -->
     <div class="search-bar">
+
       <div class="search-text">
         <label>Adresse</label>
-        <input type="text" placeholder="...">
+
+        <!-- ⭐ INPUT CONNECTÉ ANGULAR -->
+        <input
+          type="text"
+          placeholder="Entrez une destination..."
+          [(ngModel)]="destination"
+        >
       </div>
+
+      <!-- Icône micro -->
       <span class="material-icons mic-icon">mic</span>
+
     </div>
+
   </header>
 
+
+  <!-- ================= MAP ================= -->
   <main class="map-area">
-    <div class="map-instruction-overlay">DANS 15 METRES</div>
+
+    <!-- ⭐ CARTE GOOGLE MAPS -->
+    <google-map
+      height="100%"
+      width="100%"
+      [center]="center"
+      [zoom]="zoom">
+    </google-map>
+
+    <!-- ⭐ Instruction dynamique sur la carte -->
+    <div class="map-instruction-overlay">
+      {{ nextInstruction }}
+    </div>
+
   </main>
 
+
+  <!-- ================= PANEL BAS ================= -->
   <footer class="bottom-panel">
+
     <div class="drag-handle"></div>
 
+    <!-- ================= INSTRUCTION PRINCIPALE ================= -->
     <div class="instruction-row">
+
       <div class="yellow-circle">
-        <span class="material-icons">turn_right</span>
+        <span class="material-icons">{{ icon }}</span>
       </div>
+
       <div class="instruction-content">
-        <p class="dist">DANS 15 METRES</p>
-        <h1 class="action">A <br> DROITE</h1>
-        <p class="street">RUE ....</p>
+        <p class="dist">{{ distance }}</p>
+        <h1 class="action">{{ action }}</h1>
+        <p class="street">{{ street }}</p>
       </div>
+
     </div>
 
+
+    <!-- ================= STATISTIQUES (100% dynamiques) ================= -->
     <div class="stats-row">
+
       <div class="stat-group">
-        <span class="st-label">ARRIVEE ESTIMEE</span>
-        <span class="st-val">14:36</span>
+        <span class="st-label">ARRIVÉE ESTIMÉE</span>
+        <span class="st-val">{{ eta }}</span>
       </div>
+
       <div class="stat-group align-right">
         <span class="st-label">RESTANT</span>
-        <span class="st-val">5 MIN</span>
-        <span class="st-sub">500m</span>
+        <span class="st-val">{{ timeLeft }}</span>
+        <span class="st-sub">{{ metersLeft }}</span>
       </div>
+
     </div>
+
+
+    <!-- ================= BOUTON ROADBOOK ================= -->
+    <button class="go-roadbook" (click)="openRoadbook()">
+      Voir détails itinéraire
+    </button>
+
   </footer>
 
 </div>

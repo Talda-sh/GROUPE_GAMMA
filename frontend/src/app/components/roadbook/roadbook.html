@@ -1,0 +1,104 @@
+<div class="roadbook-container">
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+
+    <!-- Bouton retour -->
+    <button class="icon-btn">
+      <span class="material-icons-round">arrow_back</span>
+    </button>
+
+    <div class="title">
+      <h1>ROADBOOK</h1>
+      <p>Itinéraire détaillé</p>
+    </div>
+
+    <button class="icon-btn">
+      <span class="material-icons-round">settings</span>
+    </button>
+
+  </header>
+
+
+  <!-- ================= INSTRUCTION ACTUELLE ================= -->
+  <section class="current-step" *ngIf="steps && steps.length">
+
+    <div class="step-content">
+
+      <div class="icon-box dark">
+        <span class="material-icons-round">
+          {{ steps[0]?.icon }}
+        </span>
+      </div>
+
+      <div>
+        <h2>{{ steps[0]?.distance }}</h2>
+        <p>{{ steps[0]?.text }}</p>
+
+        <span class="extra-text" *ngIf="steps[0]?.extra">
+          {{ steps[0]?.extra }}
+        </span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= LISTE DES STEPS ================= -->
+  <section class="step" *ngFor="let step of steps?.slice(1)">
+
+    <div class="step-content">
+
+      <div class="icon-box">
+        <span class="material-icons-round">
+          {{ step.icon }}
+        </span>
+      </div>
+
+      <div>
+        <h3>{{ step.distance }}</h3>
+        <p>{{ step.text }}</p>
+
+        <div class="extra" *ngIf="step.extra">
+          <span class="material-icons-round">info</span>
+          <span>{{ step.extra }}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= DESTINATION ================= -->
+  <section class="destination" *ngIf="hasArrived">
+
+    <div class="dest-icon">
+      <span class="material-icons-round">location_on</span>
+    </div>
+
+    <h2>Arrivée à destination</h2>
+    <p>{{ destination }}</p>
+
+  </section>
+
+
+  <!-- ================= CONTROLES AUDIO ================= -->
+  <footer class="footer">
+
+    <button class="repeat" (click)="repeatInstruction()">
+      <span class="material-icons-round">volume_up</span>
+      Répéter
+    </button>
+
+    <button class="pause" (click)="togglePause()">
+      <span class="material-icons-round">
+        {{ isPaused ? 'play_arrow' : 'pause' }}
+      </span>
+      {{ isPaused ? 'Reprendre' : 'Pause' }}
+    </button>
+
+  </footer>
+
+</div>

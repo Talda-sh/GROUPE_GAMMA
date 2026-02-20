@@ -1,40 +1,64 @@
-/* Conteneur principal */
+/* ================= GLOBAL ================= */
+
 .app-wrapper {
   height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
-  background-color: #000000;
+  background-color: #000;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
 }
 
-/* Header et Logo */
+
+/* ================= HEADER ================= */
+
 .header {
   padding: 15px 20px;
-  z-index: 10;
+  z-index: 20;
+  position: relative;
 }
 
 .logo {
-  height: 60px; /* Ajuste la taille de ton logo PS.png ici */
-  margin-bottom: 10px;
+  height: 55px;
+  margin-bottom: 12px;
   display: block;
 }
 
-/* Barre de recherche avec bordure jaune */
+
+/* ================= SEARCH BAR ================= */
+
 .search-bar {
   border: 2px solid #EEFF00;
   border-radius: 50px;
-  padding: 8px 20px;
+  padding: 10px 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: rgba(0, 0, 0, 0.7);
+  gap: 10px;
+
+  /* effet glass */
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(12px);
+
+  box-shadow: 0 0 20px rgba(238,255,0,0.15);
+  transition: 0.25s ease;
+}
+
+.search-bar:focus-within {
+  box-shadow: 0 0 25px rgba(238,255,0,0.35);
+}
+
+.search-text {
+  flex: 1;
 }
 
 .search-text label {
   display: block;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 900;
-  color: white;
+  letter-spacing: 1px;
+  color: #bbb;
   text-transform: uppercase;
 }
 
@@ -47,98 +71,149 @@
   width: 100%;
 }
 
+.search-text input::placeholder {
+  color: #666;
+}
+
 .mic-icon {
   color: #EEFF00;
-  font-size: 30px;
+  font-size: 28px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Zone de la Carte */
+.mic-icon:hover {
+  transform: scale(1.1);
+}
+
+
+/* ================= MAP AREA ================= */
+
 .map-area {
   flex-grow: 1;
-  background-color: #2a2a2a; /* Couleur temporaire avant Leaflet */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
+/* IMPORTANT pour google-map */
+google-map {
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+
+/* Overlay instruction flottante */
 .map-instruction-overlay {
-  font-size: 24px;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+
+  padding: 12px 20px;
+  border-radius: 20px;
+
+  font-size: 20px;
   font-weight: 900;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  text-align: center;
+
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
 }
 
-/* Panneau d'instructions du bas */
+
+/* ================= BOTTOM PANEL ================= */
+
 .bottom-panel {
-  background-color: #12120B; /* Fond sombre de la charte */
-  border-radius: 40px 40px 0 0;
-  padding: 20px 30px 40px;
-  box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+  background: linear-gradient(180deg,#14140e,#0c0c07);
+  border-radius: 35px 35px 0 0;
+  padding: 20px 25px 35px;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+  position: relative;
+  z-index: 15;
 }
 
 .drag-handle {
-  width: 40px;
-  height: 4px;
+  width: 45px;
+  height: 5px;
   background: #333;
   margin: 0 auto 20px;
-  border-radius: 2px;
+  border-radius: 3px;
 }
+
+
+/* ================= INSTRUCTION ================= */
 
 .instruction-row {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
 }
 
 .yellow-circle {
   background-color: #EEFF00;
-  width: 90px;
-  height: 90px;
+  min-width: 80px;
+  height: 80px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   color: black;
+
+  box-shadow: 0 0 20px rgba(238,255,0,0.5);
 }
 
 .yellow-circle span {
-  font-size: 50px;
+  font-size: 42px;
   font-weight: bold;
+}
+
+.instruction-content {
+  flex: 1;
 }
 
 .action {
   color: #EEFF00;
-  font-size: 40px;
+  font-size: 34px;
   font-weight: 900;
-  line-height: 0.9;
-  margin: 0;
+  line-height: 1;
+  margin: 2px 0;
 }
 
 .dist {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   margin: 0;
+  color: #ddd;
 }
 
 .street {
-  color: #888;
-  font-size: 18px;
-  margin: 5px 0 0;
+  color: #777;
+  font-size: 16px;
+  margin: 2px 0 0;
 }
 
-/* Statistiques du trajet */
+
+/* ================= STATS ================= */
+
 .stats-row {
   display: flex;
   justify-content: space-between;
   margin-top: 25px;
-  padding-top: 20px;
+  padding-top: 18px;
   border-top: 1px solid #222;
 }
 
+.stat-group {
+  display: flex;
+  flex-direction: column;
+}
+
 .st-label {
-  color: #888;
-  font-size: 12px;
-  display: block;
+  color: #777;
+  font-size: 11px;
+  letter-spacing: 1px;
 }
 
 .st-val {
@@ -147,11 +222,36 @@
 }
 
 .st-sub {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  display: block;
+  color: #aaa;
 }
 
 .align-right {
   text-align: right;
+}
+
+
+/* ================= BOUTON ROADBOOK ================= */
+
+.go-roadbook {
+  margin-top: 20px;
+  width: 100%;
+  border-radius: 30px;
+  border: none;
+  padding: 14px;
+
+  font-size: 16px;
+  font-weight: 900;
+
+  background: #EEFF00;
+  color: black;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.go-roadbook:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(238,255,0,0.3);
 }

@@ -1,22 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NavigationComponent } from './navigation';
+import { Roadbook } from './roadbook';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('NavigationComponent', () => {
+describe('Roadbook', () => {
 
-  let component: NavigationComponent;
-  let fixture: ComponentFixture<NavigationComponent>;
+  let component: Roadbook;
+  let fixture: ComponentFixture<Roadbook>;
 
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
       imports: [
-        NavigationComponent,
+        Roadbook,
         HttpClientTestingModule
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(NavigationComponent);
+    fixture = TestBed.createComponent(Roadbook);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
