@@ -1,24 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Roadbook } from './roadbook';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
+import { ListeningComponent } from './listening';
 
-describe('Roadbook', () => {
+describe('ListeningComponent', () => {
 
-  let component: Roadbook;
-  let fixture: ComponentFixture<Roadbook>;
+  let component: ListeningComponent;
+  let fixture: ComponentFixture<ListeningComponent>;
 
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
-      imports: [
-        Roadbook,
-        HttpClientTestingModule
-      ],
+      imports: [ListeningComponent],
       providers: [provideRouter([])] 
-    }).compileComponents();
+    })
+    .compileComponents();
 
-    fixture = TestBed.createComponent(Roadbook);
+    fixture = TestBed.createComponent(ListeningComponent);
     component = fixture.componentInstance;
 
     fixture.detectChanges();

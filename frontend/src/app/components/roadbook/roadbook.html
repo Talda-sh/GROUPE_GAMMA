@@ -1,17 +1,18 @@
 <div class="roadbook-container">
 
-  <!-- ================= HEADER ================= -->
+  <!-- HEADER -->
   <header class="header">
 
-    <!-- Bouton retour -->
+    <!-- Retour navigation -->
     <button class="icon-btn">
-      <span class="material-icons-round">arrow_back</span>
+      <span class="material-icons-round">arrow_back_ios_new</span>
     </button>
 
     <div class="title">
-      <h1>ROADBOOK</h1>
-      <p>Itinéraire détaillé</p>
+      <h1>Itinéraire détaillé</h1>
     </div>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
     <button class="icon-btn">
       <span class="material-icons-round">settings</span>
@@ -20,7 +21,7 @@
   </header>
 
 
-  <!-- ================= INSTRUCTION ACTUELLE ================= -->
+  <!-- INSTRUCTION ACTUELLE -->
   <section class="current-step" *ngIf="steps && steps.length">
 
     <div class="step-content">
@@ -45,7 +46,7 @@
   </section>
 
 
-  <!-- ================= LISTE DES STEPS ================= -->
+  <!--  LISTE DES STEPS  -->
   <section class="step" *ngFor="let step of steps?.slice(1)">
 
     <div class="step-content">
@@ -71,7 +72,7 @@
   </section>
 
 
-  <!-- ================= DESTINATION ================= -->
+  <!-- DESTINATION -->
   <section class="destination" *ngIf="hasArrived">
 
     <div class="dest-icon">
@@ -84,11 +85,11 @@
   </section>
 
 
-  <!-- ================= CONTROLES AUDIO ================= -->
+  <!--  CONTROLES AUDIO  -->
   <footer class="footer">
 
     <button class="repeat" (click)="repeatInstruction()">
-      <span class="material-icons-round">volume_up</span>
+      <span class="material-icons-round">replay</span>
       Répéter
     </button>
 

@@ -6,6 +6,7 @@
   color: white;
   min-height: 100vh;
   padding: 20px;
+  padding-bottom: 130px; /* évite que le footer cache le contenu */
   font-family: Arial, sans-serif;
 }
 
@@ -26,10 +27,22 @@
   border-radius: 50%;
   width: 48px;
   height: 48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.icon-btn:hover {
+  background: rgba(249,249,6,0.2);
 }
 
 .title {
   text-align: center;
+}
+
+.title h1 {
+  font-size: 22px;
+  margin: 0;
 }
 
 /* =========================
@@ -42,6 +55,11 @@
   border-radius: 16px;
   margin-top: 25px;
   box-shadow: 0px 8px 25px rgba(249,249,6,0.25);
+}
+
+.current-step h2 {
+  margin: 0;
+  font-size: 28px;
 }
 
 .extra-text {
@@ -62,7 +80,6 @@
   backdrop-filter: blur(6px);
 }
 
-/* ligne verticale jaune */
 .step::before {
   content: '';
   position: absolute;
@@ -73,14 +90,14 @@
   background: rgba(249,249,6,0.25);
 }
 
-/* layout step */
+/* layout */
 .step-content {
   display: flex;
   gap: 18px;
   align-items: flex-start;
 }
 
-/* carré icône */
+/* icône */
 .icon-box {
   background: rgba(249,249,6,0.15);
   color: #f9f906;
@@ -101,7 +118,6 @@
   font-size: 30px;
 }
 
-/* texte supplémentaire (porte auto etc) */
 .extra {
   margin-top: 12px;
   color: #f9f906;
@@ -152,22 +168,26 @@
   background: linear-gradient(to top,#23230f,transparent);
 }
 
-.repeat {
+/* boutons footer */
+.repeat,
+.pause {
   flex: 1;
-  background: rgba(255,255,255,0.1);
-  color: white;
   padding: 18px;
   border-radius: 14px;
   border: none;
   font-weight: bold;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+.repeat {
+  background: rgba(255,255,255,0.1);
+  color: white;
 }
 
 .pause {
-  flex: 1;
   background: #f9f906;
   color: black;
-  padding: 18px;
-  border-radius: 14px;
-  border: none;
-  font-weight: bold;
 }

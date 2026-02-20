@@ -37,7 +37,6 @@
   align-items: center;
   gap: 10px;
 
-  /* effet glass */
   background: rgba(0,0,0,0.45);
   backdrop-filter: blur(12px);
 
@@ -95,11 +94,11 @@
   overflow: hidden;
 }
 
-/* IMPORTANT pour google-map */
-google-map {
+/* CARTE LEAFLET */
+.map {
   height: 100%;
   width: 100%;
-  display: block;
+  z-index: 1;
 }
 
 /* Overlay instruction flottante */
@@ -120,6 +119,7 @@ google-map {
   text-align: center;
 
   box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  z-index: 10;
 }
 
 

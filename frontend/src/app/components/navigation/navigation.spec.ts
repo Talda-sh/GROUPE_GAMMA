@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavigationComponent } from './navigation';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
 describe('NavigationComponent', () => {
 
@@ -13,7 +14,8 @@ describe('NavigationComponent', () => {
       imports: [
         NavigationComponent,
         HttpClientTestingModule
-      ]
+      ],
+      providers: [provideRouter([])] 
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavigationComponent);
