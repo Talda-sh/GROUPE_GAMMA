@@ -1,24 +1,15 @@
-# Router FastAPI pour définir les endpoints API
 from fastapi import APIRouter, Depends
-
-# Session SQLAlchemy
 from sqlalchemy.orm import Session
-
-# Pydantic
 from pydantic import BaseModel
 
-# DB
 from database import get_db
-import models as models
-
-# Algo
+import models
 from dijkstra import calculate_route
 
 router = APIRouter()
 
-
 # ==========================
-# SCHEMA Pydantic
+# SCHEMA (ce que frontend envoie)
 # ==========================
 class RouteRequest(BaseModel):
     destination: str
@@ -29,9 +20,7 @@ class RouteRequest(BaseModel):
 # ==========================
 @router.get("/locations")
 def get_locations(db: Session = Depends(get_db)):
-
-    locations = db.query(models.Location).all()
-    return locations
+    return db.query(models.Location).all()
 
 
 # ==========================
@@ -39,9 +28,7 @@ def get_locations(db: Session = Depends(get_db)):
 # ==========================
 @router.get("/pois")
 def get_pois(db: Session = Depends(get_db)):
-
-    pois = db.query(models.POI).all()
-    return pois
+    return db.query(models.POI).all()
 
 
 # ==========================
@@ -50,11 +37,10 @@ def get_pois(db: Session = Depends(get_db)):
 @router.post("/route")
 def get_route(data: RouteRequest, db: Session = Depends(get_db)):
 
-    # 🔵 1️⃣ Position actuelle (temporaire)
-    # plus tard GPS / géolocalisation
+    # 🔵 Position actuelle (temporaire)
     current_node_id = 1
 
-    # 🔵 2️⃣ Trouver le POI correspondant
+    # 🔵 Trouver la destination dans les POI
     poi = db.query(models.POI).filter(
         models.POI.category == data.destination
     ).first()
@@ -64,11 +50,11 @@ def get_route(data: RouteRequest, db: Session = Depends(get_db)):
 
     end_id = poi.node_id
 
-    # 🔵 3️⃣ Charger graphe
+    # 🔵 Charger graphe
     nodes = db.query(models.Node).all()
     edges = db.query(models.Edge).all()
 
-    # 🔵 4️⃣ Calcul Dijkstra
+    # 🔵 Calcul Dijkstra
     result = calculate_route(
         nodes,
         edges,
@@ -76,13 +62,13 @@ def get_route(data: RouteRequest, db: Session = Depends(get_db)):
         end_id
     )
 
-    # 🔵 5️⃣ Transformer le path en instructions
+    # 🔵 Transformer le path en steps Angular
     steps = []
 
     for node_id in result["path"]:
         steps.append({
             "distance": "",
-            "text": f"Avancez vers le node {node_id}",
+            "text": f"Dirigez-vous vers le point {node_id}",
             "icon": "straight"
         })
 
