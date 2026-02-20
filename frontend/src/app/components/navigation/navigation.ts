@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 
 import { NavigationService } from './navigation.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
@@ -18,7 +19,14 @@ import { NavigationService } from './navigation.service';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor(private navigationService: NavigationService) {}
+  constructor(
+    private navigationService: NavigationService,
+    private route: ActivatedRoute 
+  ) {}
+
+  // ========================
+  // MAP
+  // ========================
 
   center = {
     lat: 48.8566,
@@ -26,9 +34,14 @@ export class NavigationComponent implements OnInit {
   };
 
   zoom = 18;
+
+  // ========================
+  // DONNÉES NAVIGATION
+  // ========================
+
   nextInstruction = '';
 
-  destination = 'restaurant';
+  destination = ''; 
 
   distance = '';
   action = '';
@@ -41,11 +54,35 @@ export class NavigationComponent implements OnInit {
 
   steps: any[] = [];
 
+  // ========================
+  // INIT
+  // ========================
+
   ngOnInit(): void {
-    this.loadRoute();
+
+    // 🔥 on récupère la destination envoyée par Listening
+    this.route.queryParams.subscribe(params => {
+
+      if (params['destination']) {
+
+        this.destination = params['destination'];
+
+        console.log('DESTINATION VOCALE:', this.destination);
+
+        this.loadRoute(); // ⭐ backend réel
+
+      }
+
+    });
+
   }
 
+  // ========================
+  // BACKEND ROUTE
+  // ========================
+
   loadRoute() {
+
     this.navigationService.getRoute(this.destination)
       .subscribe((data: any) => {
 
@@ -64,10 +101,15 @@ export class NavigationComponent implements OnInit {
 
           this.nextInstruction = current.text || '';
         }
+
       });
+
   }
 
-  // ⭐ AJOUTÉ POUR LE TEMPLATE
+  // ========================
+  // TEMPLATE
+  // ========================
+
   openRoadbook() {
     console.log('ouvrir roadbook');
   }

@@ -1,0 +1,152 @@
+:host {
+  display: block;
+  height: 100vh;
+  background-color: #000000;
+  color: white;
+}
+
+/* ================= CENTER LAYOUT ================= */
+
+.center {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+}
+
+/* ================= TALK BUTTON ================= */
+
+.talk-btn {
+  width: 270px !important;
+  height: 300px !important;
+  background: #EEFF00 !important;
+  border-radius: 15% !important;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.talk-btn mat-icon {
+  font-size: 120px !important;
+  width: 120px !important;
+  height: 120px !important;
+  color: #EEFF00 !important;
+}
+
+/* Cercle noir derrière le micro */
+.circle-border {
+  width: 120px;
+  height: 120px;
+  background: #000;
+  border-radius: 50%;
+  margin-top: 20px;
+
+  display: flex;          /* ⭐ corrigé (était commenté) */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Texte bouton */
+p {
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* ================= EFFET NEON ================= */
+
+.neon {
+  box-shadow:
+    0 0 20px #EEFF00,
+    0 0 40px #EEFF00,
+    0 0 80px #EEFF00;
+  border-radius: 15%;
+}
+
+/* ================= ANIMATION MICRO ================= */
+
+.pulse {
+  animation: pulseAnim 1.5s infinite ease-in-out;
+}
+
+@keyframes pulseAnim {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ================= DOT TYPING ================= */
+
+.dot-typing::after {
+  content: '';
+  animation: ellipsis steps(3,end) 1.5s infinite;
+}
+
+@keyframes ellipsis {
+  0%   { content: '.'; }
+  33%  { content: '..'; }
+  66%  { content: '...'; }
+}
+
+/* ================= TRANSCRIPT ================= */
+
+.transcript-container {
+  position: absolute;
+  bottom: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.transcript-box {
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid #EEFF00;
+  border-radius: 25px;
+  padding: 12px 20px;
+  min-width: 250px;
+  max-width: 85%;
+  text-align: left;
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 12px rgba(238, 255, 0, 0.25);
+}
+
+.final-text,
+.interim-text {
+  color: white;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+.interim-text {
+  opacity: 0.5;
+  font-style: italic;
+}
+
+/* ================= OPTIONNEL RESPONSIVE ================= */
+
+@media (max-width: 420px) {
+
+  .talk-btn {
+    width: 220px !important;
+    height: 250px !important;
+  }
+
+  .talk-btn mat-icon {
+    font-size: 100px !important;
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  p {
+    font-size: 22px;
+  }
+}

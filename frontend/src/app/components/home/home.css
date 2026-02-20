@@ -1,0 +1,88 @@
+:host {
+  display: block;
+  height: 100vh;
+  background-color: #000000;
+  color: white;
+}
+
+/* ================= CENTER ================= */
+
+.center {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+/* ================= TALK BUTTON ================= */
+
+.talk-btn {
+  width: 270px !important;
+  height: 300px !important;
+  background: #EEFF00 !important;
+  border-radius: 15% !important;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: transform 0.2s ease;
+}
+
+.talk-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ================= ICON ================= */
+
+.talk-btn mat-icon {
+  font-size: 120px !important;
+  width: 120px !important;
+  height: 120px !important;
+  color: #EEFF00 !important;
+}
+
+/* Cercle noir derrière le micro */
+.circle-border {
+  width: 120px;
+  height: 120px;
+  background: #000;
+  border-radius: 50%;
+  margin-top: 20px;
+
+  display: flex; /* ⭐ corrigé (était commenté) */
+  justify-content: center;
+  align-items: center;
+}
+
+/* ================= TEXTE ================= */
+
+p {
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 420px) {
+
+  .talk-btn {
+    width: 220px !important;
+    height: 250px !important;
+  }
+
+  .talk-btn mat-icon {
+    font-size: 100px !important;
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  p {
+    font-size: 22px;
+  }
+}

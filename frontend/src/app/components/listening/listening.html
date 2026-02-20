@@ -1,0 +1,25 @@
+<div class="center">
+  <div [class.neon]="isListening">
+    <button mat-fab class="talk-btn" (click)="toggleListening()">
+      
+      <mat-icon class="circle-border" [class.pulse]="isListening">
+        mic
+      </mat-icon>
+      
+      <div>
+        <p *ngIf="!isListening">APPUYER POUR PARLER</p>
+        <p *ngIf="isListening" class="status-text">
+          Parlez<span class="dot-typing"></span>
+        </p>
+      </div>
+    </button>
+  </div>
+
+  <div class="transcript-container" *ngIf="transcript || interimTranscript">
+    <div class="transcript-box">
+      <span class="final-text">{{ transcript }}</span>
+      <span class="interim-text">{{ interimTranscript }}</span>
+      <span *ngIf="!transcript && !interimTranscript">...</span>
+    </div>
+  </div>
+</div>

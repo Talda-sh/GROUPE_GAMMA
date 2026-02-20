@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RoadbookService } from './roadbook.service'; // ✅ CORRECTION ICI
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-roadbook',
@@ -11,7 +11,7 @@ import { RoadbookService } from './roadbook.service'; // ✅ CORRECTION ICI
 })
 export class Roadbook implements OnInit {
 
-  constructor(private roadbookService: RoadbookService) {}
+  constructor(private route: ActivatedRoute) {}
 
   // ============================
   // DONNÉES ROADBOOK
@@ -50,24 +50,35 @@ export class Roadbook implements OnInit {
   }
 
   // ============================
-  // CONNEXION BACKEND FASTAPI
+  // RÉCUPÉRATION DES DONNÉES DEPUIS NAVIGATION
   // ============================
 
   ngOnInit(): void {
 
-    this.roadbookService.getRoute('restaurant')
-      .subscribe((data: any) => {
+    this.route.queryParams.subscribe(params => {
 
-        console.log('ROUTE DYNAMIQUE:', data);
+      if (params['steps']) {
 
-        this.steps = data.steps || [];
-        this.destination = data.destination || '';
-
-        if (this.steps.length) {
-          this.currentInstruction = this.steps[0].text;
+        try {
+          this.steps = JSON.parse(params['steps']);
+        } catch {
+          this.steps = [];
         }
 
-      });
+        this.destination = params['destination'] || '';
+
+        if (this.steps.length) {
+
+          this.currentInstruction = this.steps[0].text;
+
+          // lecture automatique de la première instruction
+          this.speak(this.currentInstruction);
+
+        }
+
+      }
+
+    });
 
   }
 
