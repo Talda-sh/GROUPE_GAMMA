@@ -2,9 +2,7 @@
 
   <header class="header">
 
-    <div class="logo-container">
-      <img src="assets/PS.png" alt="Logo PathSense" class="logo">
-    </div>
+    
 
     <div class="search-bar">
 
@@ -17,18 +15,19 @@
           [(ngModel)]="destination"
         >
       </div>
-      <a routerLink="/home" class="back-btn">
+
+      <a routerLink="/home">
         <span class="material-icons mic-icon">mic</span>
       </a>
+
     </div>
 
   </header>
 
-
   <!-- ================= MAP ================= -->
   <main class="map-area">
 
-    <!--  LEAFLET -->
+    <!-- LEAFLET -->
     <div id="map" class="map"></div>
 
     <div class="map-instruction-overlay">
@@ -36,7 +35,6 @@
     </div>
 
   </main>
-
 
   <footer class="bottom-panel">
 

@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { GoogleMapsModule } from '@angular/google-maps';
-import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import * as L from 'leaflet';
 
 import { NavigationService } from './navigation.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
@@ -19,33 +17,13 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './navigation.html',
   styleUrls: ['./navigation.css']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, AfterViewInit {
 
-  constructor(
-    private navigationService: NavigationService,
-    private route: ActivatedRoute ,
-    private router: Router
-  ) {}
+  private map!: L.Map;
 
-  // ========================
-  // MAP
-  // ========================
-
-  center = {
-    lat: 48.8566,
-    lng: 2.3522
-  };
-
-  zoom = 18;
-
-  // ========================
-  // DONNÉES NAVIGATION
-  // ========================
+  destination: string = '';
 
   nextInstruction = '';
-
-  destination = ''; 
-
   distance = '';
   action = '';
   street = '';
@@ -57,13 +35,16 @@ export class NavigationComponent implements OnInit {
 
   steps: any[] = [];
 
-  // ========================
-  // INIT
-  // ========================
+  constructor(
+    private navigationService: NavigationService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  // ================= INIT =================
 
   ngOnInit(): void {
 
-    // 🔥 on récupère la destination envoyée par Listening
     this.route.queryParams.subscribe(params => {
 
       if (params['destination']) {
@@ -72,19 +53,28 @@ export class NavigationComponent implements OnInit {
 
         console.log('DESTINATION VOCALE:', this.destination);
 
-        this.loadRoute(); // ⭐ backend réel
-
+        this.loadRoute();
       }
 
     });
 
   }
 
-  // ========================
-  // BACKEND ROUTE
-  // ========================
+  // ================= MAP =================
 
-  loadRoute() {
+  ngAfterViewInit(): void {
+
+    this.map = L.map('map').setView([48.8566, 2.3522], 18);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(this.map);
+
+  }
+
+  // ================= BACKEND =================
+
+  loadRoute(): void {
 
     this.navigationService.getRoute(this.destination)
       .subscribe((data: any) => {
@@ -93,33 +83,33 @@ export class NavigationComponent implements OnInit {
 
         this.steps = data.path_steps || [];
 
-        if (this.steps.length) {
+        if (this.steps.length > 0) {
 
           const current = this.steps[0];
 
-          this.distance = current.distance || '';
-          this.action = current.text || '';
-          this.icon = current.icon || 'straight';
-          this.street = data.destination || '';
+          this.distance = current?.distance || '';
+          this.action = current?.text || '';
+          this.icon = current?.icon || 'straight';
+          this.street = data?.destination || '';
+          this.nextInstruction = current?.text || '';
 
-          this.nextInstruction = current.text || '';
         }
 
       });
 
   }
 
-  // ========================
-  // TEMPLATE
-  // ========================
+  // ================= ROUTER =================
 
-  openRoadbook() {
-     this.router.navigate(['/roadbook'], {
-    state: {
-      steps: this.steps,
-      destination: this.destination
-    }
-  });
+  openRoadbook(): void {
+
+    this.router.navigate(['/roadbook'], {
+      state: {
+        steps: this.steps,
+        destination: this.destination
+      }
+    });
+
   }
 
 }
