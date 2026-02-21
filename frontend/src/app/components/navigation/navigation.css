@@ -95,8 +95,10 @@
   overflow: hidden;
 }
 
-/* IMPORTANT pour google-map */
-google-map {
+
+
+/* LEAFLET MAP */
+.map {
   height: 100%;
   width: 100%;
   display: block;

@@ -1,20 +1,16 @@
 <div class="app-wrapper">
 
-  <!-- ================= HEADER ================= -->
   <header class="header">
 
-    <!-- LOGO -->
     <div class="logo-container">
       <img src="assets/PS.png" alt="Logo PathSense" class="logo">
     </div>
 
-    <!-- BARRE DE RECHERCHE -->
     <div class="search-bar">
 
       <div class="search-text">
         <label>Adresse</label>
 
-        <!-- ⭐ INPUT CONNECTÉ ANGULAR -->
         <input
           type="text"
           placeholder="Entrez une destination..."
@@ -22,7 +18,6 @@
         >
       </div>
 
-      <!-- Icône micro -->
       <span class="material-icons mic-icon">mic</span>
 
     </div>
@@ -33,15 +28,9 @@
   <!-- ================= MAP ================= -->
   <main class="map-area">
 
-    <!-- ⭐ CARTE GOOGLE MAPS -->
-    <google-map
-      height="100%"
-      width="100%"
-      [center]="center"
-      [zoom]="zoom">
-    </google-map>
+    <!--  LEAFLET -->
+    <div id="map" class="map"></div>
 
-    <!-- ⭐ Instruction dynamique sur la carte -->
     <div class="map-instruction-overlay">
       {{ nextInstruction }}
     </div>
@@ -49,12 +38,10 @@
   </main>
 
 
-  <!-- ================= PANEL BAS ================= -->
   <footer class="bottom-panel">
 
     <div class="drag-handle"></div>
 
-    <!-- ================= INSTRUCTION PRINCIPALE ================= -->
     <div class="instruction-row">
 
       <div class="yellow-circle">
@@ -69,8 +56,6 @@
 
     </div>
 
-
-    <!-- ================= STATISTIQUES (100% dynamiques) ================= -->
     <div class="stats-row">
 
       <div class="stat-group">
@@ -86,8 +71,6 @@
 
     </div>
 
-
-    <!-- ================= BOUTON ROADBOOK ================= -->
     <button class="go-roadbook" (click)="openRoadbook()">
       Voir détails itinéraire
     </button>
