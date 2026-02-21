@@ -148,6 +148,10 @@ export class ListeningComponent implements OnInit {
 
       this.cdr.detectChanges();
 
+       this.router.navigate(['/navigation'], {
+    queryParams: { destination: this.transcript }
+  });
+
     });
   }
 
