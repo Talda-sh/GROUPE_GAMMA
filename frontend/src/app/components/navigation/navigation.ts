@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { Router } from '@angular/router';
 
 import { NavigationService } from './navigation.service';
 import { ActivatedRoute } from '@angular/router';
@@ -21,7 +22,8 @@ export class NavigationComponent implements OnInit {
 
   constructor(
     private navigationService: NavigationService,
-    private route: ActivatedRoute 
+    private route: ActivatedRoute ,
+    private router: Router
   ) {}
 
   // ========================
@@ -111,7 +113,12 @@ export class NavigationComponent implements OnInit {
   // ========================
 
   openRoadbook() {
-    console.log('ouvrir roadbook');
+     this.router.navigate(['/roadbook'], {
+    state: {
+      steps: this.steps,
+      destination: this.destination
+    }
+  });
   }
 
 }
