@@ -14,7 +14,6 @@ import { ActivatedRoute } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    GoogleMapsModule,
     RouterLink
   ],
   templateUrl: './navigation.html',

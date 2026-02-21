@@ -4,7 +4,7 @@ import { NavigationComponent } from './navigation';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 
-// ⭐ MOCK LEAFLET (très important pour les tests)
+// ⭐MOCK LEAFLET 
 vi.mock('leaflet', () => {
   return {
     map: () => ({
