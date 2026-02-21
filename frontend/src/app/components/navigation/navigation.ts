@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { NavigationService } from './navigation.service';
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +14,8 @@ import { ActivatedRoute } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    RouterLink
   ],
   templateUrl: './navigation.html',
   styleUrls: ['./navigation.css']
