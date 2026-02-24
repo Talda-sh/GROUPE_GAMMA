@@ -8,53 +8,111 @@ from dijkstra import calculate_route
 
 router = APIRouter()
 
-# ==========================
-# SCHEMA (ce que frontend envoie)
-# ==========================
+# ======================================================
+# SCHEMA (ce que le frontend envoie)
+# ======================================================
+
 class RouteRequest(BaseModel):
     destination: str
 
 
-# ==========================
+# ======================================================
+# NORMALISATION VOCALE
+# Convertit "un" -> "1" etc
+# ======================================================
+
+def normalize_destination(text: str) -> str:
+
+    if not text:
+        return ""
+
+    replacements = {
+        "un": "1",
+        "deux": "2",
+        "trois": "3",
+        "quatre": "4",
+        "cinq": "5",
+        "six": "6",
+        "sept": "7",
+        "huit": "8",
+        "neuf": "9",
+        "dix": "10"
+    }
+
+    text = text.lower()
+
+    for word, number in replacements.items():
+        text = text.replace(f" {word} ", f" {number} ")
+
+    return text.strip()
+
+
+# ======================================================
 # GET LOCATIONS
-# ==========================
+# ======================================================
+
 @router.get("/locations")
 def get_locations(db: Session = Depends(get_db)):
     return db.query(models.Location).all()
 
 
-# ==========================
+# ======================================================
 # GET POIS
-# ==========================
+# ======================================================
+
 @router.get("/pois")
 def get_pois(db: Session = Depends(get_db)):
     return db.query(models.POI).all()
 
 
-# ==========================
-# POST ROUTE (LOGIQUE REELLE)
-# ==========================
+# ======================================================
+# SEARCH LIEUX (restaurant, gare, etc)
+# ======================================================
+
+@router.get("/search")
+def search_places(q: str, db: Session = Depends(get_db)):
+
+    query = normalize_destination(q)
+
+    results = db.query(models.POI).filter(
+        models.POI.name.ilike(f"%{query}%") |
+        models.POI.category.ilike(f"%{query}%")
+    ).limit(6).all()
+
+    return results
+
+
+# ======================================================
+# POST ROUTE (CALCUL ITINÉRAIRE)
+# ======================================================
+
 @router.post("/route")
 def get_route(data: RouteRequest, db: Session = Depends(get_db)):
 
-    # 🔵 Position actuelle (temporaire)
+    # position actuelle (temporaire)
     current_node_id = 1
 
-    # 🔵 Trouver la destination dans les POI
+    #  normaliser texte vocal
+    destination_clean = normalize_destination(data.destination)
+
+    print("DESTINATION NORMALISÉE:", destination_clean)
+
+    #  chercher destination
     poi = db.query(models.POI).filter(
-        models.POI.category == data.destination
-    ).first()
+    (models.POI.name.ilike(f"%{data.destination}%")) |
+    (models.POI.category.ilike(f"%{data.destination}%"))
+).first()
 
     if not poi:
         return {"error": "Destination introuvable"}
 
     end_id = poi.node_id
 
-    # 🔵 Charger graphe
+    #  charger graphe
     nodes = db.query(models.Node).all()
     edges = db.query(models.Edge).all()
 
-    # 🔵 Calcul Dijkstra
+    # calcul Dijkstra
     result = calculate_route(
         nodes,
         edges,
@@ -62,7 +120,7 @@ def get_route(data: RouteRequest, db: Session = Depends(get_db)):
         end_id
     )
 
-    # 🔵 Transformer le path en steps Angular
+    #  transformer path → steps Angular
     steps = []
 
     for node_id in result["path"]:
