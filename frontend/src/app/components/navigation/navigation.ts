@@ -60,6 +60,18 @@ export class NavigationComponent implements OnInit, AfterViewInit {
 
   }
 
+  searchFromInput(): void {
+
+  if (!this.destination || this.destination.trim() === '') {
+    return;
+  }
+
+  console.log('Recherche clavier:', this.destination);
+
+  this.loadRoute();
+
+}
+
   // ================= MAP =================
 
   ngAfterViewInit(): void {
@@ -74,30 +86,36 @@ export class NavigationComponent implements OnInit, AfterViewInit {
 
   // ================= BACKEND =================
 
-  loadRoute(): void {
+  loadRoute() {
 
-    this.navigationService.getRoute(this.destination)
-      .subscribe((data: any) => {
+  this.navigationService.getRoute(this.destination)
+    .subscribe((data: any) => {
 
-        console.log('NAVIGATION DATA:', data);
+      console.log('NAVIGATION DATA:', data);
 
-        this.steps = data.path_steps || [];
+      // 🔥 IMPORTANT : gérer erreur backend
+      if (data.error) {
+        console.warn('BACKEND ERROR:', data.error);
+        this.nextInstruction = 'Destination introuvable';
+        this.steps = [];
+        return;
+      }
 
-        if (this.steps.length > 0) {
+      this.steps = data.path_steps || [];
 
-          const current = this.steps[0];
+      if (this.steps.length > 0) {
 
-          this.distance = current?.distance || '';
-          this.action = current?.text || '';
-          this.icon = current?.icon || 'straight';
-          this.street = data?.destination || '';
-          this.nextInstruction = current?.text || '';
+        const current = this.steps[0];
 
-        }
+        this.distance = current.distance || '';
+        this.action = current.text || '';
+        this.icon = current.icon || 'straight';
+        this.street = data.destination || '';
+        this.nextInstruction = current.text || '';
+      }
+    });
 
-      });
-
-  }
+}
 
   // ================= ROUTER =================
 

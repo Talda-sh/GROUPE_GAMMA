@@ -13,6 +13,7 @@
           type="text"
           placeholder="Entrez une destination..."
           [(ngModel)]="destination"
+          (keyup.enter)="searchFromInput()"
         >
       </div>
 
