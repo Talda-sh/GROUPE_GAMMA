@@ -3,15 +3,33 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
 import os
 
-# Charger le .env
+
+# ======================================
+# Charger variables .env
+# ======================================
+
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL manquant dans le fichier .env")
+
+
+# ======================================
+# Engine SQLAlchemy
+# ======================================
+
 engine = create_engine(
     DATABASE_URL,
-    pool_pre_ping=True
+    pool_pre_ping=True,
+    echo=True   # 🔥 affiche les requêtes SQL dans le terminal (debug)
 )
+
+
+# ======================================
+# Session DB
+# ======================================
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -19,9 +37,18 @@ SessionLocal = sessionmaker(
     bind=engine
 )
 
+
+# ======================================
+# Base models
+# ======================================
+
 Base = declarative_base()
 
-# Dépendance pour obtenir une session de base de données
+
+# ======================================
+# Dépendance FastAPI
+# ======================================
+
 def get_db():
     db = SessionLocal()
     try:
