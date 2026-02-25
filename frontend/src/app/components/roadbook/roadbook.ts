@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
+import { NavigationService } from '../navigation/navigation.service';
 
 @Component({
   selector: 'app-roadbook',
@@ -12,22 +12,19 @@ import { RouterLink } from '@angular/router';
 })
 export class Roadbook implements OnInit {
 
-  constructor(private route: ActivatedRoute) {}
-
-  // ============================
-  // DONNÉES ROADBOOK
-  // ============================
-
   steps: any[] = [];
   destination = '';
-  hasArrived = false;
+  hasArrived: boolean = false; //  IMPORTANT (corrige ton erreur)
 
   currentInstruction = '';
   isPaused = false;
 
-  // ============================
-  // AUDIO NAVIGATION
-  // ============================
+  constructor(
+    private navigationService: NavigationService,
+    private router: Router
+  ) {}
+
+  // ================= AUDIO =================
 
   speak(text: string) {
     const utterance = new SpeechSynthesisUtterance(text);
@@ -50,36 +47,26 @@ export class Roadbook implements OnInit {
     }
   }
 
-  // ============================
-  // RÉCUPÉRATION DES DONNÉES DEPUIS NAVIGATION
-  // ============================
+  // ================= INIT =================
 
   ngOnInit(): void {
 
-    this.route.queryParams.subscribe(params => {
+    // on récupère depuis le service (PLUS queryParams)
+    this.steps = this.navigationService.steps || [];
+    this.destination = this.navigationService.destination || '';
 
-      if (params['steps']) {
+    if (this.steps.length) {
 
-        try {
-          this.steps = JSON.parse(params['steps']);
-        } catch {
-          this.steps = [];
-        }
+      this.currentInstruction = this.steps[0].text;
 
-        this.destination = params['destination'] || '';
+      this.speak(this.currentInstruction);
 
-        if (this.steps.length) {
-
-          this.currentInstruction = this.steps[0].text;
-
-          // lecture automatique de la première instruction
-          this.speak(this.currentInstruction);
-
-        }
-
+      // si dernière étape = arrivé
+      if (this.currentInstruction.toLowerCase().includes('arrivé')) {
+        this.hasArrived = true;
       }
 
-    });
+    }
 
   }
 

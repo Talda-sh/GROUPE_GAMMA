@@ -15,4 +15,9 @@ export class NavigationService {
     );
   }
 
+    steps: any[] = [];
+    destination: string = '';
+    currentStepIndex = 0;
+
+
 }

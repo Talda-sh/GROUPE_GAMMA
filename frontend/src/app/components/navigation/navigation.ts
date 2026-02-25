@@ -20,6 +20,7 @@ import { NavigationService } from './navigation.service';
 export class NavigationComponent implements OnInit, AfterViewInit {
 
   private map!: L.Map;
+  private navigationTimer: any;
 
   destination: string = '';
 
@@ -45,6 +46,21 @@ export class NavigationComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
+    // RESTORE SI ON REVIENT DE ROADBOOK
+if (this.navigationService.steps.length) {
+
+  this.steps = this.navigationService.steps;
+  this.destination = this.navigationService.destination;
+
+  const current = this.steps[0];
+
+  this.distance = current.distance;
+  this.action = current.text;
+  this.icon = current.icon;
+  this.nextInstruction = current.text;
+
+}
+
     this.route.queryParams.subscribe(params => {
 
       if (params['destination']) {
@@ -55,22 +71,19 @@ export class NavigationComponent implements OnInit, AfterViewInit {
 
         this.loadRoute();
       }
-
     });
-
   }
+
+  // ================= RECHERCHE CLAVIER =================
 
   searchFromInput(): void {
 
-  if (!this.destination || this.destination.trim() === '') {
-    return;
+    if (!this.destination || this.destination.trim() === '') return;
+
+    console.log('Recherche clavier:', this.destination);
+
+    this.loadRoute();
   }
-
-  console.log('Recherche clavier:', this.destination);
-
-  this.loadRoute();
-
-}
 
   // ================= MAP =================
 
@@ -82,40 +95,92 @@ export class NavigationComponent implements OnInit, AfterViewInit {
       attribution: '&copy; OpenStreetMap'
     }).addTo(this.map);
 
+    setTimeout(() => {
+      this.map.invalidateSize();
+    }, 300);
+  }
+
+  // ================= FAKE NAVIGATION (30 sec) =================
+
+  startFakeNavigation() {
+
+    if (this.navigationTimer) {
+      clearInterval(this.navigationTimer);
+    }
+
+    let index = 0;
+
+    this.navigationTimer = setInterval(() => {
+
+      if (!this.steps || index >= this.steps.length) {
+        clearInterval(this.navigationTimer);
+        return;
+      }
+
+      const current = this.steps[index];
+
+      this.distance = current.distance || '';
+      this.action = current.text || '';
+      this.icon = current.icon || 'straight';
+      this.nextInstruction = current.text || '';
+
+      //  Mise à jour ETA / temps restant / distance
+      if (index === 0) {
+        this.metersLeft = '50m';
+        this.timeLeft = '30 sec';
+        this.eta = 'Arrivée proche';
+      }
+      else if (index === 1) {
+        this.metersLeft = '20m';
+        this.timeLeft = '20 sec';
+        this.eta = 'Presque arrivé';
+      }
+      else if (index === 2) {
+        this.metersLeft = '10m';
+        this.timeLeft = '10 sec';
+        this.eta = 'Arrivée imminente';
+      }
+
+      index++;
+
+    }, 30000); // 30 secondes
   }
 
   // ================= BACKEND =================
 
   loadRoute() {
 
-  this.navigationService.getRoute(this.destination)
-    .subscribe((data: any) => {
+    this.navigationService.steps = this.steps;
+    this.navigationService.destination = this.destination;  
+    this.navigationService.getRoute(this.destination)
+      .subscribe((data: any) => {
 
-      console.log('NAVIGATION DATA:', data);
+        console.log('NAVIGATION DATA:', data);
 
-      // 🔥 IMPORTANT : gérer erreur backend
-      if (data.error) {
-        console.warn('BACKEND ERROR:', data.error);
-        this.nextInstruction = 'Destination introuvable';
-        this.steps = [];
-        return;
-      }
+        if (data.error) {
+          console.warn('BACKEND ERROR:', data.error);
+          this.nextInstruction = 'Destination introuvable';
+          this.steps = [];
+          return;
+        }
 
-      this.steps = data.path_steps || [];
+        this.steps = data.path_steps || [];
 
-      if (this.steps.length > 0) {
+        if (this.steps.length > 0) {
 
-        const current = this.steps[0];
+          const current = this.steps[0];
 
-        this.distance = current.distance || '';
-        this.action = current.text || '';
-        this.icon = current.icon || 'straight';
-        this.street = data.destination || '';
-        this.nextInstruction = current.text || '';
-      }
-    });
+          this.distance = current.distance || '';
+          this.action = current.text || '';
+          this.icon = current.icon || 'straight';
+          this.street = data.destination || '';
+          this.nextInstruction = current.text || '';
 
-}
+          //  démarre la navigation seulement après avoir reçu les steps
+          this.startFakeNavigation();
+        }
+      });
+  }
 
   // ================= ROUTER =================
 
@@ -127,7 +192,6 @@ export class NavigationComponent implements OnInit, AfterViewInit {
         destination: this.destination
       }
     });
-
   }
 
 }
